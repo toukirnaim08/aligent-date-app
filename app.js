@@ -4,7 +4,7 @@ const express = require("express");
 const { projectTitle } = require('./constants');
 
 // Api controller
-const aligentDateController = require('./app/rest/api/AligentDate');
+const aligentDateController = require('./app/rest/api/aligent_date');
 
 const app = express();
 
@@ -43,7 +43,7 @@ app.use(
 );
 
 // Route: tezos generate address
-app.get(projectTitle.NAME + '/comparison', async (req, res) => {
+app.post(projectTitle.NAME + '/comparison', async (req, res) => {
     await aligentDateController.comparison(app, req, res);
 });
 
