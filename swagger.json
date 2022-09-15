@@ -1,0 +1,13 @@
+{
+	"definition": {
+	  "openapi": "3.0.0",
+	  "info": {
+		"title": "Date Api Implemantation",
+		"version": "1.0.0",
+		"description": "Aligent Date Api Implemantation"
+	  }
+	},
+	"apis": [
+	  "./app/rest/api/*.js"
+	]
+  }

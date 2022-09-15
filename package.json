@@ -1,0 +1,28 @@
+{
+	"name": "aligent-date-app",
+	"version": "1.0.0",
+	"description": "Date Api Implemantation",
+	"main": "server.js",
+	"scripts": {
+	  "test": "jest",
+	  "start": "cross-env NODE_ENV=dev node server.js",
+	  "docker": "pm2-docker start server.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+	  "bunyan": "^1.8.15",
+	  "cross-env": "^7.0.3",
+	  "dotenv": "^15.0.0",
+	  "express": "^4.17.1",
+	  "jsonschema": "^1.4.0",
+	  "swagger-jsdoc": "^6.1.0",
+	  "swagger-ui-express": "^4.2.0"
+	},
+	"devDependencies": {
+	  "jest": "^27.3.1",
+	  "mock-socket": "^9.0.8",
+	  "superagent": "^6.1.0",
+	  "supertest": "^6.2.4"
+	}
+  }
