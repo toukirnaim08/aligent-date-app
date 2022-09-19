@@ -39,7 +39,7 @@ app.use(
     swaggerUi.setup(swaggerSpecs, swaggerOption)
 );
 
-// Route: tezos generate address
+// Route: Date controller
 app.post("/" + projectTitle.NAME + '/comparison', async (req, res) => {
     await aligentDateController.comparison(app, req, res);
 });
