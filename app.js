@@ -14,19 +14,16 @@ app.use(express.json({ strict: false }))
 // Parse application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
 
-
 // Configure swagger
 swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
 var swaggerDocument = require('./swagger.json');
 const swaggerSpecs = swaggerJsdoc(swaggerDocument);
 
-
 // Configure logger class
 app.log = require('bunyan').createLogger({
     name: 'default'
 });
-
 
 // Route: swaggerUi
 const swaggerOption = {
@@ -37,16 +34,15 @@ const swaggerOption = {
 
 // Route: swagger ui
 app.use(
-    projectTitle.NAME + '/apidocs',
+    "/" + projectTitle.NAME + '/apidocs',
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpecs, swaggerOption)
 );
 
 // Route: tezos generate address
-app.post(projectTitle.NAME + '/comparison', async (req, res) => {
+app.post("/" + projectTitle.NAME + '/comparison', async (req, res) => {
     await aligentDateController.comparison(app, req, res);
 });
-
 
 // Route: handle 404
 app.use(function (req, res, next) {
@@ -62,14 +58,14 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     console.debug(`500 ${req.method} ${req.path}`)
     console.error(err)
+
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error = err;
 
     // render the error page
     res.status(err.status || 500);
     res.json({ status: 500, message: err.message || 'Internal Server error' });
 });
-
 
 module.exports = app;
