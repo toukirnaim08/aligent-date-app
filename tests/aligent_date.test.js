@@ -46,9 +46,55 @@ test("1", () => {
 		});
 });
 
+// Date comparison - basic test
+test("2", () => {
+	expect(true);
+	const url = "/aligent-date/comparison";
+	const body = {
+		show_details_in_year_month_hour: false,
+		start_date: {
+			date: "2022-04-20",
+			time: "16:00:30",
+			time_zone: "Australia/Adelaide"
+		},
+		end_date: {
+			date: "2022-05-20",
+			time: "16:00:30",
+			time_zone: "Australia/Adelaide"
+		}
+	};
+
+	const result = {
+		days: {
+			total: 31,
+			details: null // as show_details_in_year_month_hour = false
+
+		},
+		week_days: {
+			total: 8,
+			details: null // as show_details_in_year_month_hour = false
+		},
+		complete_weeks: {
+			total: 3,
+			details: null // as show_details_in_year_month_hour = false
+		}
+	};
+
+	return request(app)
+		.post(url)
+		.send(body)
+		.then(response => {
+			// Validate if we have valid response
+			expect(response.statusCode).toBe(200);
+			// Assert result
+			expect(response.body.results).toStrictEqual(result);
+		});
+});
+
+
 
 // Date comparison - with missing value
-test("2", () => {
+test("3", () => {
     expect(true);
 	const url = "/aligent-date/comparison";
 	const body = {
@@ -78,7 +124,7 @@ test("2", () => {
 
 
 // Date comparison - End date is less than start date
-test("3", () => {
+test("4", () => {
 	expect(true);
 	const url = "/aligent-date/comparison";
 	const body = {
@@ -108,7 +154,7 @@ test("3", () => {
 
 
 // Date comparison - with dodgy date value
-test("4", () => {
+test("5", () => {
     expect(true);
 	const url = "/aligent-date/comparison";
 	const body = {
