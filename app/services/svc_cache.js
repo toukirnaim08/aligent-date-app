@@ -1,7 +1,6 @@
 require('dotenv').config()
 const redis = require('redis');
 
-// Configure redis
 var redisClient;
 
 // Connect redis
@@ -30,7 +29,7 @@ async function save_value_in_cache(key, value, time_to_live = 10) {
 }
 
 /**
- * Get values.
+ * Get values using key.
  *
  * @param {string} key
  *

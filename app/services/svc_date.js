@@ -1,7 +1,7 @@
 const { dateConfigs } = require('../../constants');
 
 /**
- * Calculate deffirences between two dates
+ * Calculate differences between two dates
  *
  * @param {bool} show_details_in_year_month_hour
  * @param {Date} start_date
@@ -52,6 +52,7 @@ async function calculate_diffs(show_details_in_year_month_hour, start_date, end_
  */
 
 async function date_from_timezone(date, time, time_zone) {
+	// Create date object from different timne zone into australian timezone
 	full_date = date + " " + time + " +0930";
     return new Date((typeof full_date === "string" ? new Date(full_date) : full_date).toLocaleString("en-US", {timeZone: time_zone}));
 }
@@ -61,7 +62,6 @@ async function date_from_timezone(date, time, time_zone) {
  */
 
 /**
- * Private Mathods
  * Generate result
  *
  * @param {bool} show_details_in_year_month_hour
@@ -74,7 +74,6 @@ async function date_from_timezone(date, time, time_zone) {
  */
  function generate_result(show_details_in_year_month_hour, total_days_in_seconds, total_days, total_weekends, total_weeks) {
 	let total_week_days = total_days - total_weekends;
-	console.log("generate_result " + show_details_in_year_month_hour);
 	return {
 		days: {
 			total: total_days,

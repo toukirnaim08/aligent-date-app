@@ -1,9 +1,10 @@
 // Load files
 const { validate_json_schema } = require('./validation');
 
+// Load services
 const { calculate_diffs, date_from_timezone } = require('../../services/svc_date');
-const {save_value_in_cache, get_value_from_cache} = require('../../services/svc_cache');
-const {create_hash} = require('../../services/svc_hash');
+const { save_value_in_cache, get_value_from_cache } = require('../../services/svc_cache');
+const { create_hash } = require('../../services/svc_hash');
 
 module.exports = {
 	/**
@@ -40,6 +41,7 @@ module.exports = {
 	 */
 	comparison: async function (app, req, res) {
 
+		console.log("enviroment " + process.env.NODE_ENV);
 		error_message = validate_json_schema(req.body);
 
 		// If validation failed
@@ -52,16 +54,17 @@ module.exports = {
 			});
 		}
 
-		const hash_key = create_hash(JSON.stringify(req.body));
+		const hash_key = create_hash(JSON.stringify(req.body)).toString();
 
 		// Check whether the results in cache or not
-		const cached_data = await get_value_from_cache(hash_key.toString());
+		const cached_data = await get_value_from_cache(hash_key);
 		if (cached_data != null || cached_data != undefined) {
 			app.log.info("result found in cache " + cached_data);
 			return res.send({
 				results: cached_data
 			});
 		}
+
 
 		// Create Date objects
 		var start_date = await date_from_timezone(req.body.start_date.date,
@@ -82,16 +85,16 @@ module.exports = {
 			});
 		}
 
-		// Calculate differances
+		// Calculate differences
 		const results = await calculate_diffs(req.body.show_details_in_year_month_hour,
 			start_date,
 			end_date);
 
 		app.log.info("results " + JSON.stringify(results));
 
-		// We can save results in cache for few seconds as we dont need to calculate
+		// We can save results in cache for few seconds so that we dont need to calculate
 		// same operation with same values over and over again
-		await save_value_in_cache(hash_key.toString(), results, 10);
+		await save_value_in_cache(hash_key, results, 10);
 
 		return res.send({
 			results: results

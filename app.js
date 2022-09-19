@@ -33,7 +33,7 @@ const swaggerOption = {
 	}
 };
 
-//Define request response in root URL (/)
+// To check application is working
 app.get('/', function (req, res) {
 	res.send(projectTitle.NAME + " working")
 })

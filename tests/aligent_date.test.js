@@ -19,6 +19,7 @@ test("1", () => {
 		}
 	};
 
+	// Expected result
 	const result = {
 		days: {
 			total: 31,
@@ -64,6 +65,7 @@ test("2", () => {
 		}
 	};
 
+	// Expected result
 	const result = {
 		days: {
 			total: 31,
