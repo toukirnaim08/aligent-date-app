@@ -39,14 +39,17 @@ module.exports = {
 
 		error_message = validate_json_schema(req.body);
 
+		// If validation failed
 		if (error_message != null) {
-			console.log("loggging " + JSON.stringify(error_message));
+			app.log.error(JSON.stringify(error_message));
+
 			return res.status(400).send({
-				result: null,
+				results: null,
 				error: error_message
 			});
 		}
 
+		// Create Date objects
 		var start_date = await date_from_timezone(req.body.start_date.date,
 			req.body.start_date.time,
 			req.body.start_date.time_zone);
@@ -55,11 +58,22 @@ module.exports = {
 			req.body.end_date.time,
 			req.body.end_date.time_zone);
 
+		// If start date is greater than end date
+		if (start_date > end_date) {
+			app.log.info("Start date is greater than end date");
+
+			return res.status(400).send({
+				results: null,
+				error: "Start date is greater than end date"
+			});
+		}
+
+		// Calculate differances
 		const results = await calculate_diffs(req.body.show_details_in_year_month_hour,
 			start_date,
 			end_date);
 
-		console.log("loggging " + req.body.show_details_in_year_month_hour);
+		app.log.info("results " + JSON.stringify(results));
 
 		return res.send({
 			results: results
@@ -67,9 +81,6 @@ module.exports = {
 	},
 };
 
-function convertTZ(date, tzString) {
-	return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", { timeZone: tzString }));
-}
 
 // sawgger schema
 
@@ -87,9 +98,9 @@ function convertTZ(date, tzString) {
  *         time:
  *           type: string
  *           description: HH-MM-SS
- *           example: 00:00:30
+ *           example: 16:00:30
  *         time_zone:
  *           type: string
  *           description: Time Zone
- *           example: Asia/Dhaka
+ *           example: Australia/Adelaide
  */

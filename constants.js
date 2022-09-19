@@ -1,12 +1,13 @@
 exports.projectTitle = {
-    NAME: "aligent-date",
+	NAME: "aligent-date",
 };
 
 exports.defaultConfig = {
-    port: 9001
+	port: 9001
 }
 
 exports.dateConfigs = {
-    SECONDS_IN_A_DAY: 24 * 60 * 60,
+	SECONDS_IN_A_DAY: 24 * 60 * 60,
+	SECONDS_IN_A_WEEK: 7 * 24 * 60 * 60,
 	COMPLETE_WEEK_SEQUENCE: "1234560"
 }
