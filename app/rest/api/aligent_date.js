@@ -1,6 +1,9 @@
 // Load files
 const { validate_json_schema } = require('./validation');
+
 const { calculate_diffs, date_from_timezone } = require('../../services/svc_date');
+const {save_value_in_cache, get_value_from_cache} = require('../../services/svc_cache');
+const {create_hash} = require('../../services/svc_hash');
 
 module.exports = {
 	/**
@@ -49,6 +52,17 @@ module.exports = {
 			});
 		}
 
+		const hash_key = create_hash(JSON.stringify(req.body));
+
+		// Check whether the results in cache or not
+		const cached_data = await get_value_from_cache(hash_key.toString());
+		if (cached_data != null || cached_data != undefined) {
+			app.log.info("result found in cache " + cached_data);
+			return res.send({
+				results: cached_data
+			});
+		}
+
 		// Create Date objects
 		var start_date = await date_from_timezone(req.body.start_date.date,
 			req.body.start_date.time,
@@ -74,6 +88,10 @@ module.exports = {
 			end_date);
 
 		app.log.info("results " + JSON.stringify(results));
+
+		// We can save results in cache for few seconds as we dont need to calculate
+		// same operation with same values over and over again
+		await save_value_in_cache(hash_key.toString(), results, 10);
 
 		return res.send({
 			results: results

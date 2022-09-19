@@ -5,8 +5,7 @@
 	"main": "server.js",
 	"scripts": {
 		"test": "jest",
-		"start": "cross-env NODE_ENV=dev node server.js",
-		"docker": "pm2-docker start server.js"
+		"start": "cross-env NODE_ENV=dev node server.js"
 	},
 	"author": "",
 	"license": "ISC",
@@ -16,6 +15,7 @@
 		"dotenv": "^15.0.0",
 		"express": "^4.17.1",
 		"jsonschema": "^1.4.1",
+		"redis": "^4.3.1",
 		"swagger-jsdoc": "^6.1.0",
 		"swagger-ui-express": "^4.2.0"
 	},
